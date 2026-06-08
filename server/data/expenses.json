@@ -1,0 +1,86 @@
+[
+  {
+    "id": "1ff18892-0334-4e10-9403-bb117228cd8c",
+    "amount": 120.5,
+    "category": "Food",
+    "date": "2026-06-01",
+    "note": "Dinner with friends"
+  },
+  {
+    "id": "8ae07d4b-6c32-4cf5-a626-02b2635299fa",
+    "amount": 150,
+    "category": "Transport",
+    "date": "2026-06-02",
+    "note": "Monthly metro pass"
+  },
+  {
+    "id": "f7819d57-6447-4c1f-9701-f9d1510460cb",
+    "amount": 150,
+    "category": "Food",
+    "date": "2026-06-03",
+    "note": "Groceries"
+  },
+  {
+    "id": "d9934c46-6bf7-49ae-a0db-db3ef39ad332",
+    "amount": 45,
+    "category": "Entertainment",
+    "date": "2026-06-04",
+    "note": "Movie ticket"
+  },
+  {
+    "id": "e0dc5b83-e1b4-4ba2-af92-292c40dc202c",
+    "amount": 50,
+    "category": "Food",
+    "date": "2026-06-01",
+    "note": "Test Pizza"
+  },
+  {
+    "id": "e24a9767-a9a7-42ab-84eb-d64f3b11c29a",
+    "amount": 50,
+    "category": "Food",
+    "date": "2026-06-01",
+    "note": "Test Pizza"
+  },
+  {
+    "id": "9d2b4b51-e381-4adc-b134-d42b1c77d0a7",
+    "amount": 180,
+    "category": "Transport",
+    "date": "2026-06-07",
+    "note": "Weekly bus and metro pass"
+  },
+  {
+    "id": "146e4de3-8b7b-4345-a67a-01934eaada8e",
+    "amount": 100,
+    "category": "Bills",
+    "date": "2026-06-08",
+    "note": "Electricity"
+  },
+  {
+    "id": "8c69ab74-0a59-4d0b-a0db-67f236eb98b8",
+    "amount": 2000,
+    "category": "Other",
+    "date": "2026-06-08",
+    "note": "Healthcare"
+  },
+  {
+    "id": "deddbf35-2d8c-4a70-97a1-441c3b867174",
+    "amount": 50,
+    "category": "Food",
+    "date": "2026-06-01",
+    "note": "Test Pizza"
+  },
+  {
+    "id": "f27bad51-d011-4acf-a782-2fbecfc6ce9d",
+    "amount": 50,
+    "category": "Food",
+    "date": "2026-06-01",
+    "note": "Test Pizza"
+  },
+  {
+    "id": "07804b4a-b4e2-4aa1-a14e-7fc04f78b262",
+    "amount": 50,
+    "category": "Food",
+    "date": "2026-06-01",
+    "note": "Test Pizza"
+  }
+]
