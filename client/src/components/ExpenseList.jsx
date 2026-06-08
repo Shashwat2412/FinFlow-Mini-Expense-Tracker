@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { formatCurrency } from './SummaryPanel';
+import CustomSelect from './CustomSelect';
 
 export default function ExpenseList({ expenses, onEditExpense, onDeleteExpense }) {
   const [categoryFilter, setCategoryFilter] = useState('All');
@@ -95,7 +96,12 @@ export default function ExpenseList({ expenses, onEditExpense, onDeleteExpense }
       <div className="card-header">
         <h3 className="card-title">Expense Log</h3>
         {filteredExpenses.length > 0 && (
-          <button className="btn btn-secondary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }} onClick={handleCSVExport}>
+          <button className="btn btn-secondary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem', gap: '0.4rem' }} onClick={handleCSVExport}>
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
             Export CSV
           </button>
         )}
@@ -105,33 +111,31 @@ export default function ExpenseList({ expenses, onEditExpense, onDeleteExpense }
       <div className="filter-bar">
         {/* Category filter */}
         <div className="filter-group">
-          <label className="filter-label" htmlFor="cat-filter">Category</label>
-          <select
-            id="cat-filter"
-            className="select-filter"
+          <label className="filter-label">Category</label>
+          <CustomSelect
+            size="small"
+            options={categoriesList.map(cat => ({ value: cat, label: cat }))}
             value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-          >
-            {categoriesList.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
+            onChange={setCategoryFilter}
+            placeholder="Category"
+          />
         </div>
 
         {/* Date filter type */}
         <div className="filter-group">
-          <label className="filter-label" htmlFor="date-range-filter">Date Range</label>
-          <select
-            id="date-range-filter"
-            className="select-filter"
+          <label className="filter-label">Date Range</label>
+          <CustomSelect
+            size="small"
+            options={[
+              { value: 'this-month', label: 'This Month' },
+              { value: 'last-month', label: 'Last Month' },
+              { value: 'custom', label: 'Custom Range' },
+              { value: 'all', label: 'All Time' }
+            ]}
             value={dateRangeType}
-            onChange={(e) => setDateRangeType(e.target.value)}
-          >
-            <option value="this-month">This Month</option>
-            <option value="last-month">Last Month</option>
-            <option value="custom">Custom Range</option>
-            <option value="all">All Time</option>
-          </select>
+            onChange={setDateRangeType}
+            placeholder="Date Range"
+          />
         </div>
 
         {/* Custom date range inputs */}
@@ -161,7 +165,11 @@ export default function ExpenseList({ expenses, onEditExpense, onDeleteExpense }
       {/* Log list/table */}
       {filteredExpenses.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-icon">💸</div>
+          <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.5, marginBottom: '1rem' }}>
+            <line x1="18" y1="2" x2="22" y2="6"></line>
+            <path d="M7.5 10.5h9M7.5 14.5h5"></path>
+            <path d="M21 12V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"></path>
+          </svg>
           <h4 className="empty-title">No expenses found</h4>
           <p className="empty-desc">Adjust your filters or add a new transaction log to get started.</p>
         </div>
@@ -196,7 +204,10 @@ export default function ExpenseList({ expenses, onEditExpense, onDeleteExpense }
                         title="Edit expense"
                         aria-label="Edit expense"
                       >
-                        ✏️
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                          <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
                       </button>
                       <button
                         className="btn-icon delete"
@@ -204,7 +215,12 @@ export default function ExpenseList({ expenses, onEditExpense, onDeleteExpense }
                         title="Delete expense"
                         aria-label="Delete expense"
                       >
-                        🗑️
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="3 6 5 6 21 6"></polyline>
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                          <line x1="10" y1="11" x2="10" y2="17"></line>
+                          <line x1="14" y1="11" x2="14" y2="17"></line>
+                        </svg>
                       </button>
                     </div>
                   </td>

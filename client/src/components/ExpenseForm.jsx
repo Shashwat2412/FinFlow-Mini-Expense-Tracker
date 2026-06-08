@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import CustomSelect from './CustomSelect';
 
 const CATEGORIES = ['Food', 'Transport', 'Bills', 'Entertainment', 'Other'];
 
@@ -126,21 +127,16 @@ export default function ExpenseForm({ onSaveExpense, editingExpense, onCancelEdi
         {/* Category */}
         <div className="form-group">
           <label className="form-label" htmlFor="category-select">Category</label>
-          <select
-            id="category-select"
-            className={`form-select ${errors.category ? 'is-invalid' : ''}`}
+          <CustomSelect
+            options={CATEGORIES.map(cat => ({ value: cat, label: cat }))}
             value={category}
-            onChange={(e) => {
-              setCategory(e.target.value);
+            onChange={(val) => {
+              setCategory(val);
               if (errors.category) setErrors({ ...errors, category: null });
             }}
-            required
-          >
-            <option value="" disabled hidden>Select Category</option>
-            {CATEGORIES.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
+            placeholder="Select Category"
+            error={errors.category}
+          />
           {errors.category && <div className="error-text">{errors.category}</div>}
         </div>
 

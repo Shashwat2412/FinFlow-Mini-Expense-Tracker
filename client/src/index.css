@@ -785,3 +785,169 @@ header {
   0% { transform: scale(0.8); opacity: 0.5; }
   100% { transform: scale(1.4); opacity: 1; }
 }
+
+/* Custom Select Dropdowns */
+.custom-select-container {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-trigger {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  user-select: none;
+}
+
+.custom-select-trigger:hover {
+  border-color: hsla(222, 20%, 45%, 0.5);
+}
+
+.custom-select-trigger.is-open {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px hsla(195, 90%, 55%, 0.15);
+}
+
+.custom-select-trigger.is-invalid {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px hsla(0, 95%, 60%, 0.15);
+}
+
+.custom-select-arrow {
+  color: var(--text-secondary);
+  transition: transform var(--transition-fast);
+  pointer-events: none;
+}
+
+.custom-select-options {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  background: hsl(222, 25%, 10%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin: 0;
+  padding: 0.25rem 0;
+  list-style: none;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+  max-height: 200px;
+  overflow-y: auto;
+  animation: fadeIn var(--transition-fast) forwards;
+}
+
+.custom-select-option {
+  padding: 0.65rem 1rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.custom-select-option:hover {
+  background: hsla(222, 20%, 25%, 0.6);
+  color: var(--text-primary);
+}
+
+.custom-select-option.selected {
+  background: hsla(195, 90%, 55%, 0.15);
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.custom-select-option.disabled {
+  color: var(--text-muted);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Small Filter Select Adjustments */
+.custom-select-container.small .custom-select-trigger {
+  padding: 0.45rem 0.75rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+}
+
+.custom-select-container.small .custom-select-options {
+  border-radius: 6px;
+  max-height: 180px;
+}
+
+.custom-select-container.small .custom-select-option {
+  padding: 0.45rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+/* Donut Chart Hole Text Restrictor */
+.chart-center-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  text-align: center;
+  overflow: hidden;
+  padding: 0.25rem;
+}
+
+/* Custom SVG Bar Chart Styles */
+.bar-chart-container {
+  flex: 1.3;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  border-left: 1px solid var(--border-color);
+  padding-left: 2rem;
+}
+
+@media (max-width: 850px) {
+  .bar-chart-container {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+  }
+}
+
+.chart-axis-line {
+  stroke: var(--border-color);
+  stroke-dasharray: 4 4;
+}
+
+.chart-bar-rect {
+  transition: y 0.5s ease, height 0.5s ease, filter 0.15s;
+}
+
+.chart-bar-rect:hover {
+  filter: brightness(1.2);
+}
+
+.chart-tooltip-text {
+  text-anchor: middle;
+  font-size: 10px;
+  font-weight: 600;
+  fill: var(--accent-cyan);
+}
+
