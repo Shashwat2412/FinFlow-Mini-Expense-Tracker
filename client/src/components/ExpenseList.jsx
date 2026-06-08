@@ -13,7 +13,7 @@ export default function ExpenseList({ expenses, onEditExpense, onDeleteExpense }
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const [itemsPerPage, setItemsPerPage] = useState('5');
 
   // Categories helper
   const categoriesList = ['All', 'Food', 'Transport', 'Bills', 'Entertainment', 'Other'];
@@ -55,12 +55,19 @@ export default function ExpenseList({ expenses, onEditExpense, onDeleteExpense }
     });
   }, [expenses, categoryFilter, dateRangeType, customStartDate, customEndDate]);
 
-  const totalPages = Math.max(1, Math.ceil(filteredExpenses.length / itemsPerPage));
+  // Dynamic page size based on "All" setting
+  const pageSize = useMemo(() => {
+    return itemsPerPage === 'all' ? Math.max(1, filteredExpenses.length) : Number(itemsPerPage);
+  }, [itemsPerPage, filteredExpenses.length]);
 
-  // Reset to page 1 on filter changes
+  const totalPages = useMemo(() => {
+    return Math.max(1, Math.ceil(filteredExpenses.length / pageSize));
+  }, [filteredExpenses.length, pageSize]);
+
+  // Reset to page 1 on filter changes or page size changes
   React.useEffect(() => {
     setCurrentPage(1);
-  }, [categoryFilter, dateRangeType, customStartDate, customEndDate]);
+  }, [categoryFilter, dateRangeType, customStartDate, customEndDate, itemsPerPage]);
 
   // Adjust page index if deletions reduce total page counts
   React.useEffect(() => {
@@ -70,10 +77,10 @@ export default function ExpenseList({ expenses, onEditExpense, onDeleteExpense }
   }, [filteredExpenses.length, totalPages, currentPage]);
 
   const paginatedExpenses = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
     return filteredExpenses.slice(start, end);
-  }, [filteredExpenses, currentPage, itemsPerPage]);
+  }, [filteredExpenses, currentPage, pageSize]);
 
   // CSV Exporter
   const handleCSVExport = () => {
@@ -256,41 +263,71 @@ export default function ExpenseList({ expenses, onEditExpense, onDeleteExpense }
       )}
 
       {/* Pagination controls footer */}
-      {filteredExpenses.length > itemsPerPage && (
+      {filteredExpenses.length > 0 && (
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '1rem',
           marginTop: '1.25rem',
           paddingTop: '1rem',
           borderTop: '1px solid var(--border-color)',
           fontSize: '0.85rem',
           color: 'var(--text-secondary)'
         }}>
-          <div>
-            Showing {Math.min((currentPage - 1) * itemsPerPage + 1, filteredExpenses.length)}-{Math.min(currentPage * itemsPerPage, filteredExpenses.length)} of {filteredExpenses.length} logs
+          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <span>Show</span>
+              <div style={{ width: '70px' }}>
+                <CustomSelect
+                  size="small"
+                  options={[
+                    { value: '5', label: '5' },
+                    { value: '10', label: '10' },
+                    { value: '25', label: '25' },
+                    { value: '50', label: '50' },
+                    { value: '100', label: '100' },
+                    { value: 'all', label: 'All' }
+                  ]}
+                  value={itemsPerPage}
+                  onChange={(val) => {
+                    setItemsPerPage(val);
+                    setCurrentPage(1);
+                  }}
+                />
+              </div>
+              <span>rows</span>
+            </div>
+            <span style={{ color: 'var(--border-color)', userSelect: 'none' }}>|</span>
+            <div>
+              Showing {Math.min((currentPage - 1) * pageSize + 1, filteredExpenses.length)}-{Math.min(currentPage * pageSize, filteredExpenses.length)} of {filteredExpenses.length} entries
+            </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <button
-              className="btn btn-secondary"
-              style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem' }}
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-            >
-              Previous
-            </button>
-            <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              className="btn btn-secondary"
-              style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem' }}
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-            >
-              Next
-            </button>
-          </div>
+          
+          {itemsPerPage !== 'all' && totalPages > 1 && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <button
+                className="btn btn-secondary"
+                style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem' }}
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              >
+                Previous
+              </button>
+              <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                className="btn btn-secondary"
+                style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem' }}
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              >
+                Next
+              </button>
+            </div>
+          )}
         </div>
       )}
 
