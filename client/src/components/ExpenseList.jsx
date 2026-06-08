@@ -11,6 +11,10 @@ export default function ExpenseList({ expenses, onEditExpense, onDeleteExpense }
   // Custom glassmorphic delete confirmation modal state
   const [confirmDeleteTarget, setConfirmDeleteTarget] = useState(null);
 
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
   // Categories helper
   const categoriesList = ['All', 'Food', 'Transport', 'Bills', 'Entertainment', 'Other'];
 
@@ -50,6 +54,26 @@ export default function ExpenseList({ expenses, onEditExpense, onDeleteExpense }
       return true; // "all"
     });
   }, [expenses, categoryFilter, dateRangeType, customStartDate, customEndDate]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredExpenses.length / itemsPerPage));
+
+  // Reset to page 1 on filter changes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [categoryFilter, dateRangeType, customStartDate, customEndDate]);
+
+  // Adjust page index if deletions reduce total page counts
+  React.useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [filteredExpenses.length, totalPages, currentPage]);
+
+  const paginatedExpenses = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    return filteredExpenses.slice(start, end);
+  }, [filteredExpenses, currentPage, itemsPerPage]);
 
   // CSV Exporter
   const handleCSVExport = () => {
@@ -186,7 +210,7 @@ export default function ExpenseList({ expenses, onEditExpense, onDeleteExpense }
               </tr>
             </thead>
             <tbody>
-              {filteredExpenses.map(e => (
+              {paginatedExpenses.map(e => (
                 <tr key={e.id}>
                   <td className="col-date">{e.date}</td>
                   <td>
@@ -228,6 +252,45 @@ export default function ExpenseList({ expenses, onEditExpense, onDeleteExpense }
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* Pagination controls footer */}
+      {filteredExpenses.length > itemsPerPage && (
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginTop: '1.25rem',
+          paddingTop: '1rem',
+          borderTop: '1px solid var(--border-color)',
+          fontSize: '0.85rem',
+          color: 'var(--text-secondary)'
+        }}>
+          <div>
+            Showing {Math.min((currentPage - 1) * itemsPerPage + 1, filteredExpenses.length)}-{Math.min(currentPage * itemsPerPage, filteredExpenses.length)} of {filteredExpenses.length} logs
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <button
+              className="btn btn-secondary"
+              style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem' }}
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            >
+              Previous
+            </button>
+            <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              className="btn btn-secondary"
+              style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem' }}
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            >
+              Next
+            </button>
+          </div>
         </div>
       )}
 
