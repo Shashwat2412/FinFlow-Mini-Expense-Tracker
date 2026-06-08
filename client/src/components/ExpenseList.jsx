@@ -282,6 +282,7 @@ export default function ExpenseList({ expenses, onEditExpense, onDeleteExpense }
               <div style={{ width: '70px' }}>
                 <CustomSelect
                   size="small"
+                  className="open-up"
                   options={[
                     { value: '5', label: '5' },
                     { value: '10', label: '10' },
