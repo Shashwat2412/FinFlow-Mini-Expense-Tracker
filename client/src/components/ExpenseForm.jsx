@@ -92,7 +92,7 @@ export default function ExpenseForm({ onSaveExpense, editingExpense, onCancelEdi
   const todayStr = new Date().toISOString().split('T')[0];
 
   return (
-    <div className={`glass-card ${editingExpense ? 'editing-expense' : ''} animate-fade-in`}>
+    <div className={`modal-content ${editingExpense ? 'editing-expense' : ''} animate-fade-in`}>
       <div className="card-header">
         <h3 className={`card-title ${editingExpense ? 'form-title-edit' : ''}`}>
           {editingExpense ? 'Edit Expense' : 'Add Expense'}
