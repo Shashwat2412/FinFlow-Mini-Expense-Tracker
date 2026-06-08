@@ -3,8 +3,8 @@
 FinFlow is a full-stack personal ledger application designed to help users track daily spending across categories, analyze their financial habits through custom interactive charts, set budget thresholds, and manage logs with ease. This project implements the **Mini Expense Tracker** exercise using a modular monorepo architecture with Node.js/Express on the backend and React (scaffolded via Vite) on the frontend.
 
 ## Deployed Demo & Live Links
-* **Frontend (Vite + React)**: *[Deployable on Vercel / Netlify]*
-* **Backend (Node.js + Express)**: *[Deployable on Render / Railway]*
+* **Frontend (Vite + React)**: *[Deploying to Vercel...]*
+* **Backend (Node.js + Express)**: [https://finflow-backend-liji.onrender.com](https://finflow-backend-liji.onrender.com)
 > *Note on Hosting:* Since this application utilizes dynamic local JSON databases (`expenses.json` and `budgets.json`) for zero-configuration local runs, production deployments should utilize a persistent disk volume (such as Render Disks) or be configured to use SQLite/PostgreSQL for persistent cloud storage.
 
 ---
